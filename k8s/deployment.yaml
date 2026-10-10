@@ -28,7 +28,7 @@ spec:
       containers:
         - name: api
           # Future changes: edit this tag in a pull request
-          image: ghcr.io/kayla-marcus/shipfast-status-api:v1.1.0
+          image: ghcr.io/kayla-marcus/shipfast-status-api:v1.2.0
           ports:
             - name: http
               containerPort: 8000
