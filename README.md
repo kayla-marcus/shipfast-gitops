@@ -19,6 +19,15 @@ A tiny internal status-check API (Python standard library only), deployed to Kub
 | `k8s/service.yaml` | Stable internal address for the pods |
 | `argocd/application.yaml` | What Argo CD watches (auto-sync, self-heal, prune) |
 
+## Prune policy trade-off
+
+`argocd/application.yaml` sets `prune: true`. Pruning means Argo CD **deletes** a cluster resource when its file is removed from `k8s/`.
+
+- **Benefit:** the cluster always matches Git exactly. Nothing is left behind as an orphan.
+- **Risk:** deleting or renaming a manifest in a merged pull request deletes the live resource. For example, removing `k8s/service.yaml` removes the Service. Check any deleted or renamed files closely when reviewing a pull request.
+- **Why it's acceptable here:** the app is two small resources, and Argo CD only prunes resources it created and tracks.
+- **Default behavior:** automated sync does not prune unless you turn it on, as a safety measure. See the Argo CD docs on [Automatic Pruning](https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/#automatic-pruning).
+
 ## Build and push an image
 
 ```
