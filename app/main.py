@@ -16,7 +16,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.path.split("?")[0]  # ignore any ?query=string
         if path == "/health":
-            self.send_json(200, {"status": "ok"})
+            self.send_json(200, {"status": "ok", "version": "1.1.0"})
         else:
             self.send_json(404, {"error": "not found"})
 
